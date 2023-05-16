@@ -100,6 +100,26 @@ ui <- dashboardPage(
                         )
                     )
                 )
+            ),
+            tabItem(
+                tabName = "sobre",
+                h2("Sobre:"),
+                fluidRow(
+                    column(
+                        width = 6,
+                        box(
+                            width = 12,
+                            title = "Metodologia"
+                        )
+                    ),
+                    column(
+                        width = 6,
+                        box(
+                            width = 12,
+                            title = "Versionamento"
+                        )
+                    )
+                )
             )
         )
     ),
