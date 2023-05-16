@@ -3,9 +3,8 @@
 library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
+library(shinyWidgets)
 library(tmap)
-
-load("data/geo_municipios_pontos.rda")
 
 source("utils.R")
 
@@ -14,10 +13,6 @@ source("utils.R")
 ui <- dashboardPage(
     skin = "midnight",
     header = dashboardHeader(
-        # title = tags$a(href = "https://www.onsv.org.br", tags$img(
-        #     src = "onsv_logo.png",
-        #     width = "80%"
-        # ))
         title = p(
             "Mortalidade no Trânsito Brasileiro",
             style = "font-size:12px"
@@ -53,21 +48,59 @@ ui <- dashboardPage(
                         width = 8,
                         box(
                             title = "Mapa dos municípios",
-                            width = 12
+                            width = 12,
+                            tmapOutput(
+                                "map_obitos",
+                                height = 600
+                            )
                         )
                     ),
                     column(
                         width = 4,
                         fluidRow(
                             box(
-                                title = "Ano",
-                                width = 12
+                                title = "Ano do Óbito",
+                                width = 12,
+                                sliderInput(
+                                    "filter_ano",
+                                    label = "Selecione o ano:",
+                                    value = 2011,
+                                    min = 2011,
+                                    max = 2021,
+                                    step = 1,
+                                    animate = TRUE,
+                                    sep = ""
+                                )
                             )
                         ),
                         fluidRow(
                             box(
-                                title = "Estado e Município",
-                                width = 12
+                                title = "UF e Município",
+                                width = 12,
+                                pickerInput(
+                                    inputId = "filter_uf",
+                                    label = "Selecione local para zoom:", 
+                                    choices = unique(
+                                        geo_municipios_ponto$uf |> sort()
+                                    ),
+                                    options = list(
+                                        size = 10,
+                                        `live-search` = TRUE
+                                    )
+                                ),
+                                pickerInput(
+                                    inputId = "filter_municipio",
+                                    label = "",
+                                    choices = unique(
+                                        sort(
+                                            geo_municipios_ponto$nome_municipio
+                                        )
+                                    ),
+                                    options = list(
+                                        size = 10,
+                                        `live-search` = TRUE
+                                    )
+                                )
                             )
                         )
                     )
