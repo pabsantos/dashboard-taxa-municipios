@@ -12,14 +12,20 @@ source("utils.R")
 # app ---------------------------------------------------------------------
 
 ui <- dashboardPage(
-    dashboardHeader(
+    skin = "midnight",
+    header = dashboardHeader(
+        # title = tags$a(href = "https://www.onsv.org.br", tags$img(
+        #     src = "onsv_logo.png",
+        #     width = "80%"
+        # ))
         title = p(
             "Mortalidade no Trânsito Brasileiro",
             style = "font-size:12px"
         )
     ),
-    dashboardSidebar(
+    sidebar = dashboardSidebar(
         sidebarMenu(
+            img(src = "onsv_logo_branco.png", width = "100%", align = "center"),
             menuItem(
                 "Mapa",
                 tabName = "mapa",
@@ -37,7 +43,7 @@ ui <- dashboardPage(
             )
         )
     ),
-    dashboardBody(
+    body = dashboardBody(
         tabItem(
             tabName = "mapa",
             fluidRow(
@@ -66,9 +72,9 @@ ui <- dashboardPage(
             tabName = "tabela"
         )
     ),
-    dashboardFooter(
-        left = p("Observatório Nacional de Segurança Viária (2023"),
-        right = img("")
+    footer = dashboardFooter(
+        left = "Observatório Nacional de Segurança Viária (2023)",
+        right = tags$a(href = "https://www.onsv.org.br", "onsv.org.br")
     ),
     title = "Dados Municipais da Mortalidade no Trânsito Brasileiro"
 )
