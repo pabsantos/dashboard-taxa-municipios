@@ -44,32 +44,63 @@ ui <- dashboardPage(
         )
     ),
     body = dashboardBody(
-        tabItem(
-            tabName = "mapa",
-            fluidRow(
-                column(
-                    width = 8,
-                    box(
-                        width = 12
+        tabItems(
+            tabItem(
+                tabName = "mapa",
+                h2("Taxa de Óbitos por 100 mil Habitantes"),
+                fluidRow(
+                    column(
+                        width = 8,
+                        box(
+                            title = "Mapa dos municípios",
+                            width = 12
+                        )
+                    ),
+                    column(
+                        width = 4,
+                        fluidRow(
+                            box(
+                                title = "Ano",
+                                width = 12
+                            )
+                        ),
+                        fluidRow(
+                            box(
+                                title = "Estado e Município",
+                                width = 12
+                            )
+                        )
                     )
                 ),
+            ),
+            tabItem(
+                tabName = "tabela",
+                h2("Taxa de Óbitos por 100 mil Habitantes"),
                 column(
-                    width = 4,
+                    width = 6,
                     fluidRow(
                         box(
-                            width = 12
+                            width = 12,
+                            title = "Série Temporal"
                         )
                     ),
                     fluidRow(
                         box(
-                            width = 12
+                            width = 12,
+                            title = "Estado e Município"
+                        )
+                    )
+                ),
+                column(
+                    width = 6,
+                    fluidRow(
+                        box(
+                            width = 12,
+                            title = "Tabela Completa"
                         )
                     )
                 )
-            ),
-        ),
-        tabItem(
-            tabName = "tabela"
+            )
         )
     ),
     footer = dashboardFooter(
