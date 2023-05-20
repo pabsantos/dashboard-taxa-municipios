@@ -117,12 +117,6 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
   
-  # update_filter_municipio <- reactive({
-  #   geo_municipios_ponto |>
-  #     filter(uf == input$filter_uf) |>
-  #     select(nome_municipio)
-  # })
-  
   observe({
     novos_muns <- geo_municipios_ponto |>
       filter(uf == input$filter_uf) |>
