@@ -2,7 +2,7 @@
 
 library(shiny)
 library(shinydashboard)
-library(shinydashboardPlus)
+library(bs4Dash)
 library(shinyWidgets)
 library(tmap)
 
@@ -65,42 +65,53 @@ tab_mapa <- tabItem(
 tab_tabela <- tabItem(
   tabName = "tabela",
   h2("Taxa de Óbitos por 100 mil Habitantes"),
-  column(
-    width = 6,
-    fluidRow(box(width = 12, title = "Série Temporal")),
-    fluidRow(box(width = 12, title = "Estado e Município"))
-  ),
-  column(width = 6, fluidRow(box(width = 12, title = "Tabela Completa")))
+  fluidRow(
+    column(
+      width = 6,
+      fluidRow(box(width = 12, title = "Série Temporal")),
+      fluidRow(box(width = 12, title = "Estado e Município"))
+    ),
+    column(width = 6, fluidRow(box(width = 12, title = "Tabela Completa")))
+  )
 )
 
 tab_sobre <- tabItem(
   tabName = "sobre",
   h2("Sobre:"),
   fluidRow(
-    column(width = 6, box(width = 12, title = "Metodologia")),
-    column(width = 6, box(width = 12, title = "Versionamento"))
+    column(width = 6, box(
+      width = 12,
+      title = "Metodologia",
+      includeMarkdown("metodologia.md")
+    )),
+    column(width = 6, box(
+      width = 12,
+      title = "Versionamento",
+      includeMarkdown("versionamento.md")
+    ))
   )
 )
 
 ui <- dashboardPage(
   skin = "midnight",
   header = dashboardHeader(
-    title = p("Mortalidade no Trânsito Brasileiro", style = "font-size:12px")
+    title = img(src = "onsv_logo_branco.png", width = "100%", align = "center")
   ),
   sidebar = dashboardSidebar(
     sidebarMenu(
-      img(src = "onsv_logo_branco.png", width = "100%", align = "center"),
       menuItem("Mapa", tabName = "mapa", icon = icon("map")),
       menuItem("Tabela", tabName = "tabela", icon = icon("table")),
       menuItem("Sobre", tabName = "sobre", icon = icon("info-circle"))
-    )
+    ),
+    skin = "dark"
   ),
   body = dashboardBody(tabItems(tab_mapa, tab_tabela, tab_sobre)),
   footer = dashboardFooter(
     left = "Observatório Nacional de Segurança Viária (2023)",
     right = tags$a(href = "https://www.onsv.org.br", "onsv.org.br")
   ),
-  title = "Dados Municipais da Mortalidade no Trânsito Brasileiro"
+  title = "Dados Municipais da Mortalidade no Trânsito Brasileiro",
+  dark = NULL
 )
 
 server <- function(input, output, session) {
