@@ -9,8 +9,8 @@ filter(ano_ocorrencia == 2011) |>
 tm_shape() +
   tm_dots(
     col = "taxa_pop",
-    size = 0.1,
-    alpha = 0.7,
+    size = "taxa_pop",
+    alpha = 0.5,
     border.lwd = 0.5,
     # palette = "reds",
     style = "cont",
