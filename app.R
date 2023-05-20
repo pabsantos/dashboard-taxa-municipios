@@ -116,7 +116,26 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output, session) {
+  
+  # update_filter_municipio <- reactive({
+  #   geo_municipios_ponto |>
+  #     filter(uf == input$filter_uf) |>
+  #     select(nome_municipio)
+  # })
+  
+  observe({
+    novos_muns <- geo_municipios_ponto |>
+      filter(uf == input$filter_uf) |>
+      pull(nome_municipio)
     
+    updatePickerInput(
+      session = session,
+      inputId = "filter_municipio",
+      choices = sort(unique(novos_muns))
+    )
+  })
+  
+  output$map_obitos <- renderTmap({plot_obitos_map(input$filter_ano)})
 }
 
 shinyApp(ui, server)
