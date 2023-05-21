@@ -1,10 +1,10 @@
 load("data/geo_municipios_pontos.rda")
-load("data/geo_municipios_poly.rda")
 
 tmap_mode("view")
 
 plot_obitos_map <- function(ano) {
-  municipios_ano <- filter(geo_municipios_ponto, ano_ocorrencia == ano)
+  
+  municipios_ano <- subset(geo_municipios_ponto, ano_ocorrencia == ano)
   
   tm_shape(municipios_ano) +
     tm_dots(
@@ -18,3 +18,16 @@ plot_obitos_map <- function(ano) {
       title = "Óbitos / 100 mil hab."
     )
 }
+
+zoom_obitos_map <- function(uf, municipio) {
+  coord_mun <- geo_municipios_ponto |> 
+    filter(uf == uf, nome_municipio == municipio) |> 
+    st_coordinates() |>
+    head(n = 1)
+  
+  long <- coord_mun[1]
+  lat <- coord_mun[2]
+  
+  tm_view(set.view = c(long, lat, 10))
+}
+

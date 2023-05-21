@@ -5,11 +5,14 @@ library(shinydashboard)
 library(bs4Dash)
 library(shinyWidgets)
 library(tmap)
-library(tidyverse)
+library(sf)
+library(dplyr)
 
 source("utils.R")
 
 # app ---------------------------------------------------------------------
+
+# ui ----------------------------------------------------------------------
 
 tab_mapa <- tabItem(
   tabName = "mapa",
@@ -56,6 +59,11 @@ tab_mapa <- tabItem(
             label = "",
             choices = unique(sort(geo_municipios_ponto$nome_municipio)),
             options = list(size = 10,`live-search` = TRUE)
+          ),
+          actionButton(
+            "search_municipio",
+            "Pesquisar",
+            icon = icon("magnifying-glass")
           )
         )
       )
@@ -115,12 +123,17 @@ ui <- dashboardPage(
   dark = NULL
 )
 
+# server ------------------------------------------------------------------
+
 server <- function(input, output, session) {
   
   observe({
-    novos_muns <- geo_municipios_ponto |>
-      filter(uf == input$filter_uf) |>
-      pull(nome_municipio)
+    novos_muns <- subset(
+      geo_municipios_ponto,
+      uf == input$filter_uf
+    )
+    
+    novos_muns <- novos_muns$nome_municipio
     
     updatePickerInput(
       session = session,
@@ -129,7 +142,21 @@ server <- function(input, output, session) {
     )
   })
   
-  output$map_obitos <- renderTmap({plot_obitos_map(input$filter_ano)})
+  plot_map <- reactive({
+    plot_obitos_map(input$filter_ano)
+  })
+  
+  zoom_map <- reactive({
+    zoom_obitos_map(input$filter_uf, input$filter_municipio)
+  })
+  
+  output$map_obitos <- renderTmap({
+    if (input$search_municipio) {
+      plot_map() + zoom_map()
+    } else {
+      plot_map()
+    }
+  })
 }
 
 shinyApp(ui, server)
