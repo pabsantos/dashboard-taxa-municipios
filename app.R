@@ -80,7 +80,7 @@ tab_tabela <- tabItem(
   h2("Taxa de Óbitos por 100 mil Habitantes"),
   fluidRow(
     column(
-      width = 6,
+      width = 8,
       fluidRow(box(
         width = 12,
         title = "Série Temporal",
@@ -106,7 +106,7 @@ tab_tabela <- tabItem(
       ))
     ),
     column(
-      width = 6,
+      width = 4,
       fluidRow(box(
         width = 12,
         title = "Tabela Completa",
