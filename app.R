@@ -7,6 +7,8 @@ library(shinyWidgets)
 library(tmap)
 library(sf)
 library(dplyr)
+library(tidyr)
+library(ggplot2)
 library(plotly)
 library(DT)
 
@@ -191,6 +193,30 @@ server <- function(input, output, session) {
   })
   
 # Tabela ------------------------------------------------------------------
+  
+  observe({
+    novos_muns_plot <- subset(
+      geo_municipios_ponto,
+      uf %in% input$plot_filter_uf
+    )
+    
+    novos_muns_plot <- novos_muns_plot$nome_municipio
+    
+    updatePickerInput(
+      session = session,
+      inputId = "plot_filter_municipio",
+      choices = sort(unique(novos_muns_plot))
+    )
+  })
+  
+  make_plotly <- reactive({
+    req(input$plot_filter_municipio)
+    plot_timeseries(input$plot_filter_municipio)
+  })
+  
+  output$grafico <- renderPlotly({
+    make_plotly()
+  })
   
 }
 

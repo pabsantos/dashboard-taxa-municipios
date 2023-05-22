@@ -31,3 +31,30 @@ zoom_obitos_map <- function(uf, municipio) {
   tm_view(set.view = c(long, lat, 10))
 }
 
+plot_timeseries <- function(municipios_list) {
+  plot <- geo_municipios_ponto |> 
+    filter(nome_municipio %in% municipios_list) |> 
+    drop_na() |> 
+    ggplot(aes(
+      x = ano_ocorrencia,
+      y = taxa_pop,
+      color = nome_municipio,
+      group = nome_municipio,
+      text = paste(
+        "Município: ",
+        nome_municipio,
+        "; ",
+        "Taxa:",
+        round(taxa_pop, digits = 2)
+      )
+    )) +
+    geom_point() +
+    geom_path() +
+    theme_minimal() +
+    scale_y_continuous(limits = c(0, NA)) +
+    labs(x = "Ano", y = "Óbitos / 100 mil hab.", color = "Município:")
+  
+  ggplotly(plot, tooltip = "text")
+}
+
+
