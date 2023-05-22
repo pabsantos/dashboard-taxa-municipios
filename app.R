@@ -7,6 +7,8 @@ library(shinyWidgets)
 library(tmap)
 library(sf)
 library(dplyr)
+library(plotly)
+library(DT)
 
 source("utils.R")
 
@@ -77,10 +79,38 @@ tab_tabela <- tabItem(
   fluidRow(
     column(
       width = 6,
-      fluidRow(box(width = 12, title = "Série Temporal")),
-      fluidRow(box(width = 12, title = "Estado e Município"))
+      fluidRow(box(
+        width = 12,
+        title = "Série Temporal",
+        plotlyOutput("grafico")
+      )),
+      fluidRow(box(
+        width = 12,
+        title = "UF e Município",
+        pickerInput(
+          inputId = "plot_filter_uf",
+          label = "Selecione local:",
+          choices = unique(geo_municipios_ponto$uf |> sort()),
+          options = list(size = 10,`live-search` = TRUE, `actions-box` = TRUE),
+          multiple = TRUE
+        ),
+        pickerInput(
+          inputId = "plot_filter_municipio",
+          label = "",
+          choices = unique(sort(geo_municipios_ponto$nome_municipio)),
+          options = list(size = 10,`live-search` = TRUE, `actions-box` = TRUE),
+          multiple = TRUE
+        )
+      ))
     ),
-    column(width = 6, fluidRow(box(width = 12, title = "Tabela Completa")))
+    column(
+      width = 6,
+      fluidRow(box(
+        width = 12,
+        title = "Tabela Completa",
+        DTOutput("tabela")
+      ))
+    )
   )
 )
 
@@ -126,6 +156,8 @@ ui <- dashboardPage(
 # server ------------------------------------------------------------------
 
 server <- function(input, output, session) {
+
+# Mapa --------------------------------------------------------------------
   
   observe({
     novos_muns <- subset(
@@ -157,6 +189,9 @@ server <- function(input, output, session) {
       plot_map()
     }
   })
+  
+# Tabela ------------------------------------------------------------------
+  
 }
 
 shinyApp(ui, server)
