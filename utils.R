@@ -31,9 +31,9 @@ zoom_obitos_map <- function(uf, municipio) {
   tm_view(set.view = c(long, lat, 10))
 }
 
-plot_timeseries <- function(municipios_list) {
+plot_timeseries <- function(uf_list, municipios_list) {
   plot <- geo_municipios_ponto |> 
-    filter(nome_municipio %in% municipios_list) |> 
+    filter(uf %in% uf_list, nome_municipio %in% municipios_list) |> 
     drop_na() |> 
     ggplot(aes(
       x = ano_ocorrencia,
@@ -56,5 +56,3 @@ plot_timeseries <- function(municipios_list) {
   
   ggplotly(plot, tooltip = "text")
 }
-
-

@@ -210,8 +210,8 @@ server <- function(input, output, session) {
   })
   
   make_plotly <- reactive({
-    req(input$plot_filter_municipio)
-    plot_timeseries(input$plot_filter_municipio)
+    req(input$plot_filter_municipio, input$plot_filter_uf)
+    plot_timeseries(input$plot_filter_uf, input$plot_filter_municipio)
   })
   
   output$grafico <- renderPlotly({
