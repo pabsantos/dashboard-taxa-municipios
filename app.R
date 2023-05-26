@@ -106,6 +106,7 @@ tab_tabela <- tabItem(
       ))
     ),
     column(
+      width = 4,
       fluidRow(box(
         width = 12,
         title = "Tabela Completa",
@@ -227,7 +228,11 @@ server <- function(input, output, session) {
     make_plotly()
   })
   
-  output$tabela <- renderDT(head(mtcars, n = 10))
+  render_tabela <- reactive({
+    make_table(input$tab_filter_ano)
+  })
+  
+  output$tabela <- renderDT(render_tabela(), rownames = FALSE)
 }
 
 shinyApp(ui, server)
