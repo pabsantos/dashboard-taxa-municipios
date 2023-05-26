@@ -56,3 +56,12 @@ plot_timeseries <- function(uf_list, municipios_list) {
   
   ggplotly(plot, tooltip = "text")
 }
+
+make_table <- function(ano) {
+  geo_municipios_ponto |> 
+    st_drop_geometry() |>
+    as_tibble() |> 
+    filter(ano_ocorrencia == ano) |> 
+    select(uf, nome_municipio, taxa_pop)
+  
+}

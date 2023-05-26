@@ -218,6 +218,7 @@ server <- function(input, output, session) {
     make_plotly()
   })
   
+  output$tabela <- renderDT()
 }
 
 shinyApp(ui, server)
