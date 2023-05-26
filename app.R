@@ -106,10 +106,19 @@ tab_tabela <- tabItem(
       ))
     ),
     column(
-      width = 4,
       fluidRow(box(
         width = 12,
         title = "Tabela Completa",
+        sliderInput(
+          "tab_filter_ano",
+          label = "Selecione o ano:",
+          value = 2011,
+          min = 2011,
+          max = 2021,
+          step = 1,
+          animate = FALSE,
+          sep = ""
+        ),
         DTOutput("tabela")
       ))
     )
@@ -218,7 +227,7 @@ server <- function(input, output, session) {
     make_plotly()
   })
   
-  output$tabela <- renderDT()
+  output$tabela <- renderDT(head(mtcars, n = 10))
 }
 
 shinyApp(ui, server)
