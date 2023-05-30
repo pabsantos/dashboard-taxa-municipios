@@ -99,7 +99,7 @@ tab_tabela <- tabItem(
         pickerInput(
           inputId = "plot_filter_municipio",
           label = "",
-          choices = unique(sort(geo_municipios_ponto$nome_municipio)),
+          choices = uf_mun_list$uf_mun,
           options = list(size = 10,`live-search` = TRUE, `actions-box` = TRUE),
           multiple = TRUE
         )
@@ -206,11 +206,11 @@ server <- function(input, output, session) {
   
   observe({
     novos_muns_plot <- subset(
-      geo_municipios_ponto,
+      uf_mun_list,
       uf %in% input$plot_filter_uf
     )
     
-    novos_muns_plot <- novos_muns_plot$nome_municipio
+    novos_muns_plot <- novos_muns_plot$uf_mun
     
     updatePickerInput(
       session = session,

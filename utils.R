@@ -33,16 +33,17 @@ zoom_obitos_map <- function(uf, municipio) {
 
 plot_timeseries <- function(uf_list, municipios_list) {
   plot <- geo_municipios_ponto |> 
-    filter(uf %in% uf_list, nome_municipio %in% municipios_list) |> 
+    mutate(uf_mun = paste(uf, nome_municipio, sep = " - ")) |> 
+    filter(uf %in% uf_list, uf_mun %in% municipios_list) |> 
     drop_na() |> 
     ggplot(aes(
       x = ano_ocorrencia,
       y = taxa_pop,
-      color = nome_municipio,
-      group = nome_municipio,
+      color = uf_mun,
+      group = uf_mun,
       text = paste(
         "Município: ",
-        nome_municipio,
+        uf_mun,
         "; ",
         "Taxa:",
         round(taxa_pop, digits = 2)
@@ -65,3 +66,10 @@ make_table <- function(ano) {
     select(uf, nome_municipio, taxa_pop)
   
 }
+
+uf_mun_list <- geo_municipios_ponto |> 
+    st_drop_geometry() |> 
+    as_tibble() |> 
+    mutate(uf_mun = paste(uf, nome_municipio, sep = " - ")) |> 
+    select(uf, uf_mun)
+
