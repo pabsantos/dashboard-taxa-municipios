@@ -6,6 +6,13 @@ Os dados de população por município são estimativas elaboradas pelo Institut
 
 Os dados espaciais de cada município brasileiro também têm como fonte o IBGE e foram coletados através do pacote [`geobr`](www.github.com/ipeagit/geobr), produzido pelo Instituto de Pesquisa Econômica Aplicada (IPEA)
 
+## Autoria
+
+Esse dashboard foi produzido por Pedro Augusto Borges dos Santos.
+
+ - GitHub: [pabsantos](www.github.com/pabsantos)
+ - E-mail: [pedro.borges@onsv.org.br](mailto:pedro.borges@onsv.org.br)
+
 ## Referências
 
 Pereira, R.H.M.; Gonçalves, C.N.; et. all (2019) geobr: Loads Shapefiles of Official Spatial Data Sets of Brazil. GitHub repository - https://github.com/ipeaGIT/geobr.
