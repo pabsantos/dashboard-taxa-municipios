@@ -62,6 +62,7 @@ make_table <- function(ano) {
   geo_municipios_ponto |> 
     st_drop_geometry() |>
     as_tibble() |> 
+    mutate(taxa_pop = round(taxa_pop, digits = 2)) |> 
     filter(ano_ocorrencia == ano) |> 
     select(uf, nome_municipio, taxa_pop)
   
@@ -72,4 +73,3 @@ uf_mun_list <- geo_municipios_ponto |>
     as_tibble() |> 
     mutate(uf_mun = paste(uf, nome_municipio, sep = " - ")) |> 
     select(uf, uf_mun)
-

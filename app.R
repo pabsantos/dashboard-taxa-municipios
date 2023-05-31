@@ -20,7 +20,7 @@ source("utils.R")
 
 tab_mapa <- tabItem(
   tabName = "mapa",
-  h2("Taxa de Óbitos por 100 mil Habitantes"),
+  h2("Índice de Mortes no Trânsito por 100 mil Habitantes"),
   fluidRow(
     column(
       width = 8,
@@ -77,7 +77,7 @@ tab_mapa <- tabItem(
 
 tab_tabela <- tabItem(
   tabName = "tabela",
-  h2("Taxa de Óbitos por 100 mil Habitantes"),
+  h2("Índice de Mortes no Trânsito por 100 mil Habitantes"),
   fluidRow(
     column(
       width = 8,
@@ -232,7 +232,13 @@ server <- function(input, output, session) {
     make_table(input$tab_filter_ano)
   })
   
-  output$tabela <- renderDT(render_tabela(), rownames = FALSE)
+  output$tabela <- renderDT(
+    render_tabela(),
+    rownames = FALSE,
+    colnames = c("UF", "Município", "Mortes / 100 mil hab."),
+    filter = "top",
+    
+  )
 }
 
 shinyApp(ui, server)
