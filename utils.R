@@ -15,7 +15,7 @@ plot_obitos_map <- function(ano) {
       palette = "YlOrRd",
       style = "cont",
       id = "nome_municipio",
-      title = "Óbitos / 100 mil hab."
+      title = "Mortes / 100 mil hab."
     )
 }
 
@@ -53,7 +53,7 @@ plot_timeseries <- function(uf_list, municipios_list) {
     geom_path() +
     theme_minimal() +
     scale_y_continuous(limits = c(0, NA)) +
-    labs(x = "Ano", y = "Óbitos / 100 mil hab.", color = "Município:")
+    labs(x = "Ano", y = "Mortes / 100 mil hab.", color = "Município:")
   
   ggplotly(plot, tooltip = "text")
 }
